@@ -1,0 +1,24 @@
+{
+  "name": "todo-app-graphql",
+  "version": "1.0.0",
+  "description": "todo-appのAPI(GraphQL)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haro-rokki/todo-app-graphql.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haro-rokki/todo-app-graphql/issues"
+  },
+  "homepage": "https://github.com/haro-rokki/todo-app-graphql#readme",
+  "devDependencies": {
+    "@types/node": "^14.6.4",
+    "tslint": "^6.1.3",
+    "typescript": "^4.0.2"
+  }
+}
