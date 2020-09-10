@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:haro-rokki/todo-app-graphql.git",
-  "author": "hiroki_iizuka",
+  "author": "haro_rokki",
   "license": "MIT",
   "dependencies": {
     "apollo-server-micro": "^2.17.0",
