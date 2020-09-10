@@ -8,6 +8,7 @@
   "dependencies": {
     "apollo-server-micro": "^2.17.0",
     "graphql": "^15.3.0",
+    "graphql-import": "^1.0.2",
     "graphql-tools": "^6.2.1",
     "micro": "^9.3.4",
     "microrouter": "^3.1.3",
