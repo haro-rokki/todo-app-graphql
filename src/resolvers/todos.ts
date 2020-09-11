@@ -6,28 +6,14 @@ type Todo = {
   done: boolean
 }
 
-let mockTodos: Todo[] = [
-  {
-    id: '6a679350-2aed-11ea-b2b6-89f5b6bcf823',
-    title: '買い物',
-    done: false,
-  },
-  {
-    id: '6a679351-2aed-11ea-b2b6-89f5b6bcf823',
-    title: '映画',
-    done: true,
-  },
-  {
-    id: '6a679352-2aed-11ea-b2b6-89f5b6bcf823',
-    title: 'ゲーム',
-    done: false,
-  },
-]
+export const allTodos = (parent: any, args: any, context: any) =>
+  context.db.collection(`todos`).find().toArray()
 
-export const allTodos = () => mockTodos
-
-export const addTodo = (_: any, args: any) => {
+export const addTodo = (parent: any, args: any, context: any) => {
   const todo = { ...args, id: uuidv4(), done: false }
-  mockTodos = [...mockTodos, todo]
+  context.db.collection(`todos`).insertOne(todo, (err: any, res: any) => {
+    if (err) throw err
+    console.log('1 document inserted')
+  })
   return todo
 }
