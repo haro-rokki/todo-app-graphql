@@ -1,6 +1,12 @@
 import { IResolvers } from 'graphql-tools'
 import { v4 as uuidv4 } from 'uuid'
 
+type Todo = {
+  id: string
+  title: string
+  done: boolean
+}
+
 export const resolvers: IResolvers = {
   Query: {
     allTodos: (_parent, _args, context) =>
@@ -13,6 +19,23 @@ export const resolvers: IResolvers = {
         if (err) throw err
       })
       return todo
+    },
+    doneTodo: async (_parent, args, context) => {
+      const todo: Todo[] = await context.db
+        .collection(`todos`)
+        .find({ id: args.id })
+        .toArray()
+      await context.db
+        .collection(`todos`)
+        .updateOne(
+          { id: args.id },
+          { $set: { done: true } },
+          (err: any, _result: any) => {
+            if (err) throw err
+          },
+        )
+      const changedTodo = { ...args, title: todo[0].title, done: true }
+      return changedTodo
     },
   },
 }
