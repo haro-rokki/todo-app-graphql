@@ -36,7 +36,7 @@
     "build": "tsc -b"
   },
   "lint-staged": {
-    "src/*.{ts,tsx}": [
+    "src/**/*.{ts,tsx}": [
       "prettier --write",
       "git add"
     ]
