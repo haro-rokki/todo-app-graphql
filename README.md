@@ -22,5 +22,5 @@ brew services stop mongodb-community
 ```
 use todo-db
 db.createCollection("todos")
-db.users.insertOne({ id: "1", title: "買い物", done: false})
+db.todos.insertOne({ id: "1", title: "買い物", done: false})
 ```

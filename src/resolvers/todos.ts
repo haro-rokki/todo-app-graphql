@@ -24,7 +24,8 @@ let mockTodos: Todo[] = [
   },
 ]
 
-export const allTodos = () => mockTodos
+export const allTodos = (parent: any, args: any, context: any) =>
+  context.db.collection(`todos`).find().toArray()
 
 export const addTodo = (_: any, args: any) => {
   const todo = { ...args, id: uuidv4(), done: false }

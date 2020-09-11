@@ -6,23 +6,27 @@ import dotenv from 'dotenv'
 
 import { schema } from './schema'
 
-const dbStart = async (): Promise<Db> => {
-  dotenv.config()
-  const MONGO_DB = process.env.DB_HOST ? process.env.DB_HOST : ''
+let db: Db
 
-  const client = await MongoClient.connect(MONGO_DB, {
-    useNewUrlParser: true,
-  })
-  const db = client.db()
+const apolloServer = new ApolloServer({
+  schema,
+  context: async () => {
+    if (!db) {
+      try {
+        dotenv.config()
+        const MONGO_DB = process.env.DB_HOST ? process.env.DB_HOST : ''
 
-  return db
-}
-
-const mongoDb = dbStart()
-
-const context = { mongoDb }
-
-const apolloServer = new ApolloServer({ schema, context })
+        const client = await MongoClient.connect(MONGO_DB, {
+          useNewUrlParser: true,
+        })
+        db = client.db()
+      } catch (e) {
+        console.log('--->error while connecting with graphql context (db)', e)
+      }
+    }
+    return { db }
+  },
+})
 const graphqlPath = '/data'
 const graphqlHandler = apolloServer.createHandler({ path: graphqlPath })
 
