@@ -37,5 +37,18 @@ export const resolvers: IResolvers = {
       const changedTodo = { ...args, title: todo[0].title, done: true }
       return changedTodo
     },
+    deleteTodo: async (_parent, args, context) => {
+      const todo: Todo[] = await context.db
+        .collection(`todos`)
+        .find({ id: args.id })
+        .toArray()
+      await context.db
+        .collection(`todos`)
+        .deleteOne({ id: args.id }, (err: any, _result: any) => {
+          if (err) throw err
+        })
+      const deletedTodo = { ...args, title: todo[0].title, done: true }
+      return deletedTodo
+    },
   },
 }
