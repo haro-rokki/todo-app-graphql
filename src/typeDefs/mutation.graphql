@@ -2,4 +2,6 @@
 
 type Mutation {
   addTodo(title: String!): Todo!
+  doneTodo(id: ID!): Todo!
+  deleteTodo(id: ID!): Todo!
 }
