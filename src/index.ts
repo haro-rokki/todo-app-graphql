@@ -1,38 +1,51 @@
-import { send } from 'micro'
-import { get, post, router } from 'microrouter'
-import { ApolloServer } from 'apollo-server-micro'
+import express from 'express'
 import { MongoClient, Db } from 'mongodb'
 import dotenv from 'dotenv'
+import { ApolloServer, gql } from 'apollo-server-express'
+import expressPlayground from 'graphql-playground-middleware-express'
 
 import { schema } from './schema'
 
-let db: Db
+const start = async () => {
+  dotenv.config()
+  const MONGO_DB = process.env.DB_HOST ? process.env.DB_HOST : ''
+  const app = express()
+  let db: Db
 
-const apolloServer = new ApolloServer({
-  schema,
-  context: async () => {
-    if (!db) {
-      try {
-        dotenv.config()
-        const MONGO_DB = process.env.DB_HOST ? process.env.DB_HOST : ''
+  try {
+    const client = await MongoClient.connect(MONGO_DB, {
+      useNewUrlParser: true,
+    })
+    db = client.db()
+  } catch (error) {
+    console.log(`
+      Mongo DB Host not found!
+      please add DB_HOST environment variable to .env file
+      exiting...
+    `)
+    process.exit(1)
+  }
 
-        const client = await MongoClient.connect(MONGO_DB, {
-          useNewUrlParser: true,
-        })
-        db = client.db()
-      } catch (e) {
-        console.log('--->error while connecting with graphql context (db)', e)
-      }
-    }
-    return { db }
-  },
-})
-const graphqlPath = '/data'
-const graphqlHandler = apolloServer.createHandler({ path: graphqlPath })
+  const server = new ApolloServer({
+    schema,
+    context: () => {
+      return { db }
+    },
+  })
 
-module.exports = router(
-  get('/', (_req, _res) => 'Welcome!'),
-  post(graphqlPath, graphqlHandler),
-  get(graphqlPath, graphqlHandler),
-  (_req, res) => send(res, 404, 'Not Found'),
-)
+  server.applyMiddleware({ app })
+
+  app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
+
+  app.get('/', (req: express.Request, res: express.Response) => {
+    return res.send('Hello world.')
+  })
+
+  app.listen(4000, () => {
+    console.log(
+      `GraphQL Server running at http://localhost:4000${server.graphqlPath}`,
+    )
+  })
+}
+
+start()
