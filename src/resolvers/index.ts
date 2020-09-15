@@ -47,7 +47,7 @@ export const resolvers: IResolvers = {
         .deleteOne({ id: args.id }, (err: any, _result: any) => {
           if (err) throw err
         })
-      const deletedTodo = { ...args, title: todo[0].title, done: true }
+      const deletedTodo = { ...args, title: todo[0].title, done: todo[0].done }
       return deletedTodo
     },
   },
