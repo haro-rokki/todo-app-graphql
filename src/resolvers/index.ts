@@ -25,9 +25,7 @@ const Mutation: MutationResolvers = {
       sortKey: Date.now(),
       createdDate: date.toLocaleString(),
     }
-    context.db.collection(`todos`).insertOne(todo, (err: any, _res: any) => {
-      if (err) throw err
-    })
+    context.db.collection(`todos`).insertOne(todo)
 
     return todo
   },
@@ -38,13 +36,7 @@ const Mutation: MutationResolvers = {
       .toArray()
     await context.db
       .collection(`todos`)
-      .updateOne(
-        { id: args.id },
-        { $set: { done: true } },
-        (err: any, _result: any) => {
-          if (err) throw err
-        },
-      )
+      .updateOne({ id: args.id }, { $set: { done: true } })
     const changedTodo: Todo = { ...args, ...todo[0], done: true }
 
     return changedTodo
@@ -54,11 +46,7 @@ const Mutation: MutationResolvers = {
       .collection(`todos`)
       .find({ id: args.id })
       .toArray()
-    await context.db
-      .collection(`todos`)
-      .deleteOne({ id: args.id }, (err: any, _result: any) => {
-        if (err) throw err
-      })
+    await context.db.collection(`todos`).deleteOne({ id: args.id })
     const deletedTodo: Todo = { ...args, ...todo[0] }
 
     return deletedTodo
@@ -79,18 +67,12 @@ const Mutation: MutationResolvers = {
       .updateOne(
         { id: sourceTodo.id },
         { $set: { sortKey: targetTodo.sortKey } },
-        (err: any, _result: any) => {
-          if (err) throw err
-        },
       )
     await context.db
       .collection(`todos`)
       .updateOne(
         { id: targetTodo.id },
         { $set: { sortKey: sourceTodo.sortKey } },
-        (err: any, _result: any) => {
-          if (err) throw err
-        },
       )
     const changedSource = { ...sourceTodo, sortKey: targetTodo.sortKey }
     const changedTarget = { ...targetTodo, sortKey: sourceTodo.sortKey }
