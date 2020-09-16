@@ -27,6 +27,7 @@ export const resolvers: IResolvers = {
       context.db.collection(`todos`).insertOne(todo, (err: any, _res: any) => {
         if (err) throw err
       })
+
       return todo
     },
     doneTodo: async (_parent, args, context) => {
@@ -44,6 +45,7 @@ export const resolvers: IResolvers = {
           },
         )
       const changedTodo: Todo = { ...args, ...todo[0], done: true }
+
       return changedTodo
     },
     deleteTodo: async (_parent, args, context) => {
@@ -57,6 +59,7 @@ export const resolvers: IResolvers = {
           if (err) throw err
         })
       const deletedTodo: Todo = { ...args, ...todo[0] }
+
       return deletedTodo
     },
     sortTodo: async (_parent, args, context) => {
@@ -90,6 +93,7 @@ export const resolvers: IResolvers = {
         )
       const changedSource = { ...sourceTodo, sortKey: targetTodo.sortKey }
       const changedTarget = { ...targetTodo, sortKey: sourceTodo.sortKey }
+
       return [changedSource, changedTarget]
     },
   },
