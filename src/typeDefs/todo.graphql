@@ -4,5 +4,6 @@ type Todo {
   id: ID!
   title: String!
   done: Boolean!
+  sortKey: Float!
   createdDate: DateTime!
 }
