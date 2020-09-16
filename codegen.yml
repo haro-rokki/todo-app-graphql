@@ -1,0 +1,16 @@
+overwrite: true
+documents: null
+schema: './src/typedefs/*.graphql'
+generates:
+  src/generated/graphql-types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-resolvers
+      - typescript-react-apollo
+    config:
+      useIndexSignature: true
+      avoidOptionals: true
+      withComponent: false
+      withHooks: true
+      withHOC: false

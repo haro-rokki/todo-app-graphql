@@ -1,0 +1,4 @@
+.eslintrc.js
+
+# grapql-codegenによる型自動生成
+src/generated

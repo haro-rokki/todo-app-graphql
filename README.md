@@ -2,6 +2,14 @@
 
 todo-app の API(GraphQL)
 
+## graphql-codegen
+
+GraphQLの型定義の自動生成。
+以下を実行すると`src/generated/graphql-types.ts`が作成される
+```
+yarn graphql-codegen --config codegen.yml
+```
+
 ## 環境構築
 
 ### mongodb
