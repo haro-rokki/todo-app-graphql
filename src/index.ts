@@ -1,7 +1,7 @@
 import express from 'express'
 import { MongoClient, Db } from 'mongodb'
 import dotenv from 'dotenv'
-import { ApolloServer, gql } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-express'
 import expressPlayground from 'graphql-playground-middleware-express'
 
 import { schema } from './schema'
