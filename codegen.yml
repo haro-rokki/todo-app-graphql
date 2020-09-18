@@ -9,6 +9,7 @@ generates:
       - typescript-resolvers
       - typescript-react-apollo
     config:
+      contextType: ../context/context#MyContext
       useIndexSignature: true
       avoidOptionals: true
       withComponent: false

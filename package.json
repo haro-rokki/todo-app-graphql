@@ -46,7 +46,8 @@
     "start": "nodemon -e ts,json,graphql",
     "build": "tsc -b",
     "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint --fix src/**/*.ts"
+    "lint:fix": "eslint --fix src/**/*.ts",
+    "codegen": "yarn graphql-codegen --config codegen.yml"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
