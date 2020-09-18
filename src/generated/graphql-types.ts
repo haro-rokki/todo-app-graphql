@@ -3,6 +3,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from 'graphql'
+import { MyContext } from '../context/context'
 import { gql } from '@apollo/client'
 export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -202,7 +203,7 @@ export type ResolversParentTypes = ResolversObject<{
 }>
 
 export type MutationResolvers<
-  ContextType = any,
+  ContextType = MyContext,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
   addTodo: Resolver<
@@ -232,7 +233,7 @@ export type MutationResolvers<
 }>
 
 export type TodoResolvers<
-  ContextType = any,
+  ContextType = MyContext,
   ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']
 > = ResolversObject<{
   createdDate: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
@@ -249,13 +250,13 @@ export interface DateTimeScalarConfig
 }
 
 export type QueryResolvers<
-  ContextType = any,
+  ContextType = MyContext,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   allTodos: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>
 }>
 
-export type Resolvers<ContextType = any> = ResolversObject<{
+export type Resolvers<ContextType = MyContext> = ResolversObject<{
   Mutation: MutationResolvers<ContextType>
   Todo: TodoResolvers<ContextType>
   DateTime: GraphQLScalarType
@@ -266,4 +267,4 @@ export type Resolvers<ContextType = any> = ResolversObject<{
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
-export type IResolvers<ContextType = any> = Resolvers<ContextType>
+export type IResolvers<ContextType = MyContext> = Resolvers<ContextType>
