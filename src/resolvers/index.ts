@@ -30,14 +30,15 @@ const Mutation: MutationResolvers = {
     return todo
   },
   doneTodo: async (_parent, args, context) => {
-    const todo: Todo[] = await context.db
+    const todos: Todo[] = await context.db
       .collection(`todos`)
       .find({ id: args.id })
       .toArray()
+    const todo = todos[0]
     await context.db
       .collection(`todos`)
-      .updateOne({ id: args.id }, { $set: { done: true } })
-    const changedTodo: Todo = { ...args, ...todo[0], done: true }
+      .updateOne({ id: args.id }, { $set: { done: !todo.done } })
+    const changedTodo: Todo = { ...args, ...todo, done: !todo.done }
 
     return changedTodo
   },
